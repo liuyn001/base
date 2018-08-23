@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+    xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/task 
+        http://www.springframework.org/schema/task/spring-task-4.0.xsd ">
+
+    <!-- redis单机连接方案 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${maxIdle}" /> <!-- 最大能够保持idel状态的对象数  -->
+        <property name="maxTotal" value="${maxTotal}" /> <!-- 最大分配的对象数 -->
+        <property name="testOnBorrow" value="${testOnBorrow}" /> <!-- 当调用borrow Object方法时，是否进行有效性检查 -->
+    </bean>
+
+    <!-- <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig" />
+        <constructor-arg index="1" value="${redis.host}" />
+        <constructor-arg index="2" value="${redis.port}" type="int" />
+        <constructor-arg index="3" value="${redis.timeout}" type="int" />
+        <constructor-arg index="4" value="${redis.pwd}" />
+    </bean> -->
+    
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig" />
+        <constructor-arg name="host" value="${redis.host}" />
+        <constructor-arg name="port" value="${redis.port}" type="int" />
+        <constructor-arg name="timeout" value="${redis.timeout}" type="int" />
+        <constructor-arg name="password" value="${redis.pwd}" />
+    </bean>
+
+    <!-- redis集群连接方案 -->
+    <!-- <bean name="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">  
+        <property name="maxWaitMillis" value="${cluster.maxWaitMillis}" />  
+        <property name="maxTotal" value="${cluster.maxTotal}" />  
+        <property name="minIdle" value="${cluster.minIdle}" />  
+        <property name="maxIdle" value="${cluster.maxIdle}" />  
+    </bean> -->
+
+    <!-- <bean id="jedisCluster" class="com.ssm.common.redis.JedisClusterFactory">  
+        <property name="connectionTimeout" value="${cluster.connectionTimeout}" />  
+        <property name="soTimeout" value="${cluster.soTimeout}" />  
+        <property name="maxRedirections" value="${cluster.maxRedirections}" />  
+        <property name="genericObjectPoolConfig" ref="genericObjectPoolConfig" />  
+        <property name="jedisClusterNodes">  
+            <set>  
+                <value>${cluster.address1}</value>  
+                <value>${cluster.address2}</value> 
+                <value>${cluster.address3}</value> 
+            </set>  
+        </property>  
+    </bean> -->
+
+	<bean id="jedisClient" class="lyn.redis.impl.JedisClient"/>
+	
+    <!-- 真正的redis操作类，具体连接方式由jedisClient的ref属性决定 可选项为jedisClusterClient、jedisClient -->
+    <bean name="redisOperate" class="lyn.redis.impl.RedisOperate">  
+        <property name="jedisClient" ref="jedisClient" />  
+    </bean>
+
+</beans>        

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="lyn.ssm.mapper.custom.ItemsMapperCustom" >
+  
+  <!-- 定义商品查询的sql片段 就是商品查询的条件-->
+  <sql id="query_items_where">
+  	<!-- 使用动态sql -->
+  	<!-- 商品查询条件通过ItemsQueryVo中ItemsCustom属性传递  对象.属性 是Struts中的OGNL 对象导航图-->
+  	<if test="itemsCustom!=null">
+  		<if test="itemsCustom.name!=null and itemsCustom.name!=''">
+  			name LIKE '%${itemsCustom.name}%'
+  		</if>
+  	</if>
+  	
+  </sql>
+  
+  <!-- 商品列表查询 -->
+  <!-- paramterType传入包装对象 resultType使用扩张对象，方便级联查询 -->
+  <select id="findItemsList" parameterType="lyn.ssm.po.vo.ItemsQueryVo"
+  	 resultType="lyn.ssm.po.custom.ItemsCustom">
+  	SELECT * FROM items
+  	<where>
+  	 	<include refid="query_items_where"></include>
+  	</where>
+  </select>
+  
+</mapper>
