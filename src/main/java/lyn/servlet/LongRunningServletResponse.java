@@ -3,12 +3,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
@@ -25,10 +18,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-
-import lyn.util.HttpClientUtils;  
+import org.apache.http.impl.client.HttpClientBuilder;  
    
 @WebServlet("/LongRunningServletResponse")  
 public class LongRunningServletResponse extends HttpServlet {  
@@ -110,7 +100,7 @@ public class LongRunningServletResponse extends HttpServlet {
     					StatusLine status = response.getStatusLine();
     					int state = status.getStatusCode();
     					if(state==HttpStatus.SC_OK) {
-    						HttpEntity responseEntity = response.getEntity();
+    						//HttpEntity responseEntity = response.getEntity();
     						//return EntityUtils.toString(responseEntity);
     						//System.out.println(rs);
     						 long e = System.currentTimeMillis(); 
