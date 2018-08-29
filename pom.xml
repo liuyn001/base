@@ -5,16 +5,18 @@
 	<groupId>com.lyn</groupId>
 	<artifactId>up-base</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>up-base Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	<properties>
-		<spring-version>4.3.18.RELEASE</spring-version>
-		<hibernate-version>4.2.21.Final</hibernate-version>
-		<struts-version>2.3.20</struts-version>
-		<redis-version>1.8.13.RELEASE</redis-version>
-	</properties>
+	<!-- <properties> <spring-version>4.3.18.RELEASE</spring-version> <hibernate-version>4.2.21.Final</hibernate-version> 
+		<struts-version>2.3.20</struts-version> <redis-version>1.8.13.RELEASE</redis-version> 
+		</properties> -->
+	<parent>
+		<groupId>com.lyn.parent</groupId>
+		<artifactId>base-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 	<dependencies>
+
 		<!-- redis -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
@@ -26,7 +28,14 @@
 			<artifactId>jedis</artifactId>
 			<version>2.9.0</version>
 		</dependency>
-		
+
+		<!-- redis solr hbase 工具包 -->
+		<dependency>
+			<groupId>com.lyn.rsh</groupId>
+			<artifactId>base-rsh</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -88,7 +97,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring-version}</version>
 		</dependency>
-		
+
 		<!-- hibernate -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -214,25 +223,31 @@
 			<artifactId>validation-api</artifactId>
 			<version>2.0.1.Final</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>com.google.collections</groupId>
-		    <artifactId>google-collections</artifactId>
-		    <version>1.0-rc2</version>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0-rc2</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>commons-pool</groupId>
-		    <artifactId>commons-pool</artifactId>
-		    <version>1.5.4</version>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.5.4</version>
 		</dependency>
-		
-		<dependency>  
-    		<groupId>com.google.code.gson</groupId>  
-    		<artifactId>gson</artifactId>  
-   			<version>2.8.2</version>  
-		</dependency>  
-		
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>up-base</finalName>
