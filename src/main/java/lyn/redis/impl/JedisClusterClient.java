@@ -6,8 +6,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -28,7 +27,7 @@ import redis.clients.jedis.Pipeline;
 //@Service("jedisClusterClient")
 public class JedisClusterClient implements IJedisClient{
 
-    private static Logger logger = LoggerFactory.getLogger(JedisClusterClient.class);
+    private static Logger logger = Logger.getLogger(JedisClusterClient.class);
 
     @Resource
     private JedisCluster jedisCluster;
@@ -41,10 +40,9 @@ public class JedisClusterClient implements IJedisClient{
             if (jedisCluster.exists(key)) {
                 value = jedisCluster.get(key);
                 value = StringUtils.isNotBlank(value) && !"nil".equalsIgnoreCase(value) ? value : null;
-                logger.debug("get {} = {}", key, value);
             }
         } catch (Exception e) {
-            logger.warn("get {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -57,10 +55,9 @@ public class JedisClusterClient implements IJedisClient{
         try {
             if (jedisCluster.exists(getBytesKey(key))) {
                 value = toObject(jedisCluster.get(getBytesKey(key)));
-                logger.debug("getObject {} = {}", key, value);
             }
         } catch (Exception e) {
-            logger.warn("getObject {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
             //returnResource(jedis);
 //          try {
@@ -82,9 +79,9 @@ public class JedisClusterClient implements IJedisClient{
             if (cacheSeconds != 0) {
                 jedisCluster.expire(key, cacheSeconds);
             }
-            logger.debug("set {} = {}", key, value);
+           // logger.debug("set {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("set {} = {}", key, value, e);
+           e.printStackTrace();
         } finally {
             //returnResource(jedis);
         }
@@ -100,9 +97,8 @@ public class JedisClusterClient implements IJedisClient{
             if (cacheSeconds != 0) {
                 jedisCluster.expire(key, cacheSeconds);
             }
-            logger.debug("setObject {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setObject {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
             //returnResource(jedis);
         }
@@ -115,10 +111,9 @@ public class JedisClusterClient implements IJedisClient{
         try {
             if (jedisCluster.exists(key)) {
                 value = jedisCluster.lrange(key, 0, -1);
-                logger.debug("getList {} = {}", key, value);
             }
         } catch (Exception e) {
-            logger.warn("getList {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
             //returnResource(jedis);
         }
@@ -135,10 +130,9 @@ public class JedisClusterClient implements IJedisClient{
                 for (byte[] bs : list){
                     value.add(toObject(bs));
                 }
-                logger.debug("getObjectList {} = {}", key, value);
             }
         } catch (Exception e) {
-            logger.warn("getObjectList {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
             //returnResource(jedis);
         }
@@ -156,9 +150,8 @@ public class JedisClusterClient implements IJedisClient{
             if (cacheSeconds != 0) {
                 jedisCluster.expire(key, cacheSeconds);
             }
-            logger.debug("setList {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setList {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
             //returnResource(jedis);
         }
@@ -180,9 +173,8 @@ public class JedisClusterClient implements IJedisClient{
             if (cacheSeconds != 0) {
                 jedisCluster.expire(key, cacheSeconds);
             }
-            logger.debug("setObjectList {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setObjectList {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
             //returnResource(jedis);
         }
@@ -194,9 +186,8 @@ public class JedisClusterClient implements IJedisClient{
         long result = 0;
         try {
             result = jedisCluster.rpush(key, value);
-            logger.debug("listAdd {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("listAdd {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -212,9 +203,8 @@ public class JedisClusterClient implements IJedisClient{
                 list.add(toBytes(o));
             }
             result = jedisCluster.rpush(getBytesKey(key), (byte[][])list.toArray());
-            logger.debug("listObjectAdd {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("listObjectAdd {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -227,10 +217,9 @@ public class JedisClusterClient implements IJedisClient{
         try {
             if (jedisCluster.exists(key)) {
                 value = jedisCluster.smembers(key);
-                logger.debug("getSet {} = {}", key, value);
             }
         } catch (Exception e) {
-            logger.warn("getSet {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -247,10 +236,9 @@ public class JedisClusterClient implements IJedisClient{
                 for (byte[] bs : set){
                     value.add(toObject(bs));
                 }
-                logger.debug("getObjectSet {} = {}", key, value);
             }
         } catch (Exception e) {
-            logger.warn("getObjectSet {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -268,9 +256,8 @@ public class JedisClusterClient implements IJedisClient{
             if (cacheSeconds != 0) {
                 jedisCluster.expire(key, cacheSeconds);
             }
-            logger.debug("setSet {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setSet {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -292,9 +279,8 @@ public class JedisClusterClient implements IJedisClient{
             if (cacheSeconds != 0) {
                 jedisCluster.expire(key, cacheSeconds);
             }
-            logger.debug("setObjectSet {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setObjectSet {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -306,9 +292,8 @@ public class JedisClusterClient implements IJedisClient{
         long result = 0;
         try {
             result = jedisCluster.sadd(key, value);
-            logger.debug("setSetAdd {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setSetAdd {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -324,9 +309,8 @@ public class JedisClusterClient implements IJedisClient{
                 set.add(toBytes(o));
             }
             result = jedisCluster.rpush(getBytesKey(key), (byte[][])set.toArray());
-            logger.debug("setSetObjectAdd {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setSetObjectAdd {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -339,10 +323,9 @@ public class JedisClusterClient implements IJedisClient{
         try {
             if (jedisCluster.exists(key)) {
                 value = jedisCluster.hgetAll(key);
-                logger.debug("getMap {} = {}", key, value);
             }
         } catch (Exception e) {
-            logger.warn("getMap {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -359,10 +342,9 @@ public class JedisClusterClient implements IJedisClient{
                 for (Map.Entry<byte[], byte[]> e : map.entrySet()){
                     value.put(new String(e.getKey()), toObject(e.getValue()));
                 }
-                logger.debug("getObjectMap {} = {}", key, value);
             }
         } catch (Exception e) {
-            logger.warn("getObjectMap {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
         }
         return value;
@@ -379,9 +361,8 @@ public class JedisClusterClient implements IJedisClient{
             if (cacheSeconds != 0) {
                 jedisCluster.expire(key, cacheSeconds);
             }
-            logger.debug("setMap {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setMap {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -403,9 +384,8 @@ public class JedisClusterClient implements IJedisClient{
             if (cacheSeconds != 0) {
                 jedisCluster.expire(key, cacheSeconds);
             }
-            logger.debug("setObjectMap {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("setObjectMap {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -417,9 +397,8 @@ public class JedisClusterClient implements IJedisClient{
         String result = null;
         try {
             result = jedisCluster.hmset(key, value);
-            logger.debug("mapPut {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("mapPut {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -435,9 +414,8 @@ public class JedisClusterClient implements IJedisClient{
                 map.put(getBytesKey(e.getKey()), toBytes(e.getValue()));
             }
             result = jedisCluster.hmset(getBytesKey(key), (Map<byte[], byte[]>)map);
-            logger.debug("mapObjectPut {} = {}", key, value);
         } catch (Exception e) {
-            logger.warn("mapObjectPut {} = {}", key, value, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -449,9 +427,8 @@ public class JedisClusterClient implements IJedisClient{
         long result = 0;
         try {
             result = jedisCluster.hdel(key, mapKey);
-            logger.debug("mapRemove {}  {}", key, mapKey);
         } catch (Exception e) {
-            logger.warn("mapRemove {}  {}", key, mapKey, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -463,9 +440,8 @@ public class JedisClusterClient implements IJedisClient{
         long result = 0;
         try {
             result = jedisCluster.hdel(getBytesKey(key), getBytesKey(mapKey));
-            logger.debug("mapObjectRemove {}  {}", key, mapKey);
         } catch (Exception e) {
-            logger.warn("mapObjectRemove {}  {}", key, mapKey, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -477,9 +453,8 @@ public class JedisClusterClient implements IJedisClient{
         boolean result = false;
         try {
             result = jedisCluster.hexists(key, mapKey);
-            logger.debug("mapExists {}  {}", key, mapKey);
         } catch (Exception e) {
-            logger.warn("mapExists {}  {}", key, mapKey, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -491,9 +466,8 @@ public class JedisClusterClient implements IJedisClient{
         boolean result = false;
         try {
             result = jedisCluster.hexists(getBytesKey(key), getBytesKey(mapKey));
-            logger.debug("mapObjectExists {}  {}", key, mapKey);
         } catch (Exception e) {
-            logger.warn("mapObjectExists {}  {}", key, mapKey, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -506,12 +480,11 @@ public class JedisClusterClient implements IJedisClient{
         try {
             if (jedisCluster.exists(key)){
                 result = jedisCluster.del(key);
-                logger.debug("del {}", key);
             }else{
-                logger.debug("del {} not exists", key);
+                logger.info("del {"+key+"} not exists");
             }
         } catch (Exception e) {
-            logger.warn("del {}", key, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -524,12 +497,11 @@ public class JedisClusterClient implements IJedisClient{
         try {
             if (jedisCluster.exists(getBytesKey(key))){
                 result = jedisCluster.del(getBytesKey(key));
-                logger.debug("delObject {}", key);
             }else{
-                logger.debug("delObject {} not exists", key);
+                logger.debug("delObject {"+key+"} not exists");
             }
         } catch (Exception e) {
-            logger.warn("delObject {}", key, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -541,9 +513,8 @@ public class JedisClusterClient implements IJedisClient{
         boolean result = false;
         try {
             result = jedisCluster.exists(key);
-            logger.debug("exists {}", key);
         } catch (Exception e) {
-            logger.warn("exists {}", key, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }
@@ -555,9 +526,8 @@ public class JedisClusterClient implements IJedisClient{
         boolean result = false;
         try {
             result = jedisCluster.exists(getBytesKey(key));
-            logger.debug("existsObject {}", key);
         } catch (Exception e) {
-            logger.warn("existsObject {}", key, e);
+        	e.printStackTrace();
         } finally {
 //          returnResource(jedis);
         }

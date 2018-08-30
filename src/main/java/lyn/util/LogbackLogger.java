@@ -1,8 +1,7 @@
 package lyn.util;
 
 import org.apache.log4j.Category;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.p6spy.engine.spy.appender.FormattedLogger;
 import com.p6spy.engine.spy.appender.P6Logger;
@@ -18,7 +17,7 @@ import com.p6spy.engine.spy.appender.P6Logger;
 * @since 1.0
 */
 public class LogbackLogger extends FormattedLogger implements P6Logger{
-    private static final Logger logger = LoggerFactory.getLogger("p6spy");
+    private static final Logger logger = Logger.getLogger("p6spy");
   
     public String getLastEntry() {
         return lastEntry;

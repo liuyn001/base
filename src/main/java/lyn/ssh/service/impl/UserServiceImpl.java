@@ -22,6 +22,7 @@ import lyn.ssh.dao.UserDaoI;
 import lyn.ssh.model.Tuser;
 import lyn.ssh.pageModel.User;
 import lyn.ssh.service.UserServiceI;
+import lyn.ssh.service.lawyee.SynLawyerXsfbService;
 import lyn.util.Encrypt;
 
 /**
@@ -44,6 +45,9 @@ public class UserServiceImpl implements UserServiceI {
 	
 	@Autowired
 	private CacheUtil cacheUtil;
+	
+	@Autowired
+	private SynLawyerXsfbService synLawyerXsfbService;
 	
 	@Override
 	public void save(User user) {
@@ -71,6 +75,10 @@ public class UserServiceImpl implements UserServiceI {
 		// Tuser t = userDao.get("from Tuser t where t.name = '"+user.getName()+"' and t.password = '"+Encrypt.e(user.getPassword())+"'");
 		// Tuser t = userDao.get("from Tuser t where t.name = ? and t.password = ?", new Object[]{user.getName(),Encrypt.e(user.getPassword())});
 		try {
+			
+			Object registerLawyer = synLawyerXsfbService.registerLawyer();
+			System.out.println("registerLawyer:"+registerLawyer);
+			
 			redisOperate.set("ee", "3333", 0);
 			String string1 = redisOperate.get("ee");
 			cacheUtil.put("zzz", "aaaa");

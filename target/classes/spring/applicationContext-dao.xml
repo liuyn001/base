@@ -99,4 +99,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 	
 	<!-- mybatiis=====================结束================================ -->
 	
+	<!-- jdbctemplate -->
+	<!--配置Spring的JdbcTemplate-->
+	<bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+      <constructor-arg name="dataSource" ref="dataSource" />         
+    </bean>
+    
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+      <constructor-arg name="dataSource" ref="dataSource" />         
+    </bean>
+    
+	
 </beans>
