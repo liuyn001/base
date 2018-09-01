@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * Tmenu entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "TMENU", schema = "BASE")
+@Table(name = "tmenu", schema = "base")
 public class Tmenu implements java.io.Serializable {
 
 	// Fields

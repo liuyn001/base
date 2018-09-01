@@ -76,14 +76,14 @@ public class UserServiceImpl implements UserServiceI {
 		// Tuser t = userDao.get("from Tuser t where t.name = ? and t.password = ?", new Object[]{user.getName(),Encrypt.e(user.getPassword())});
 		try {
 			
-			Object registerLawyer = synLawyerXsfbService.registerLawyer();
+			/*Object registerLawyer = synLawyerXsfbService.registerLawyer();
 			System.out.println("registerLawyer:"+registerLawyer);
 			
 			redisOperate.set("ee", "3333", 0);
 			String string1 = redisOperate.get("ee");
 			cacheUtil.put("zzz", "aaaa");
 			String string = cacheUtil.get("zzz");
-			System.out.println(string+string1);
+			System.out.println(string+string1);*/
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("name", user.getName());
 			params.put("password", Encrypt.e(user.getPassword()));

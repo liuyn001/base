@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
  * UserInfo entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "TUSER", schema = "BASE")
+@Table(name = "tuser", schema = "base")
 public class Tuser implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
